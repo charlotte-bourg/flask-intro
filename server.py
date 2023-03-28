@@ -18,7 +18,12 @@ AWESOMENESS = [
 def start_here():
     """Home page."""
 
-    return "<!doctype html><html>Hi! This is the home page.</html>"
+    return """<!doctype html>
+                <html>Hi! This is the home page.</html>
+                <br> 
+                <br>
+                <a href = "/hello">Go to hello page!</a>
+          """
 
 
 @app.route('/hello')
@@ -36,6 +41,18 @@ def say_hello():
         <form action="/greet">
           What's your name? <input type="text" name="person">
           <input type="submit" value="Submit">
+          <input type="radio" name="compliments" value="terrific" id="terrific">
+          <label for="compliments">Terrific</label>
+          <input type="radio" name="compliments" value="awesome" id="awesome">
+          <label for="compliments">Awesome</label>
+          <input type="radio" name="compliments" value="fantastic" id="fantastic">
+          <label for="compliments">Fantastic</label>
+        </form>
+        <br>
+        To get dissed: 
+        <form action="/diss">
+          What's your name? <input type="text" name="person">
+          <input type="submit" value="Submit">
         </form>
       </body>
     </html>
@@ -48,8 +65,7 @@ def greet_person():
 
     player = request.args.get("person")
 
-    compliment = choice(AWESOMENESS)
-
+    compliment = request.args.get("compliments")
     return f"""
     <!doctype html>
     <html>
@@ -62,6 +78,24 @@ def greet_person():
     </html>
     """
 
+@app.route('/diss')
+def diss_person():
+    """Get user by name."""
+
+    player = request.args.get("person")
+
+    diss = choice(["lame","a dweeb","a dork"])
+    return f"""
+    <!doctype html>
+    <html>
+      <head>
+        <title>A Compliment</title>
+      </head>
+      <body>
+        Hi, {player}! I think you're {diss}!
+      </body>
+    </html>
+    """
 
 if __name__ == '__main__':
     # debug=True gives us error messages in the browser and also "reloads"
